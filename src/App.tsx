@@ -1,33 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect } from 'react'
 import './App.css'
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const { quill, quillRef } = useQuill();
+
+  useEffect(() => {
+    if (quill) {
+      // Initialize any custom handlers or default content here
+      quill.clipboard.dangerouslyPasteHTML('<p>Hello, Quill!</p>');
+    }
+  }, [quill]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div style={{ width: 600, height: 400 }}>
+        <div ref={quillRef} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
